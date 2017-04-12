@@ -1,4 +1,4 @@
-(ns posh.datom-matcher)
+(ns hiwian.datom-matcher)
  
 
 (defn datom-match-pattern? [pattern datom]

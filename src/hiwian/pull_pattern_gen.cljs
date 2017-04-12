@@ -1,4 +1,4 @@
-(ns posh.pull-pattern-gen)
+(ns hiwian.pull-pattern-gen)
 
 (defn reverse-lookup? [attr]
   (when (= (first (name attr)) '\_)

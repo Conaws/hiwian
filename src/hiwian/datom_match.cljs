@@ -1,4 +1,4 @@
-(ns posh.datom-match
+(ns hiwian.datom-match
   (:require [datascript.core :as d]))
 
 (defn query-symbol? [s]

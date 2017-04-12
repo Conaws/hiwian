@@ -1,6 +1,6 @@
 #### 0.3.4
 
-- Component-friendly: `posh!` now stores posh state inside the
+- Component-friendly: `hiwian!` now stores hiwian state inside the
   meta-data of the DataScript conn. There are now no global atoms and
   all is passed around in the conn.
 - **Breaking change**: Removed `before-tx!`. You can bake up your own

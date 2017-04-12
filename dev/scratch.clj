@@ -1,9 +1,9 @@
 (ns scratch
   (:require [datascript.core :as d]
-            [posh.q-analyze :as qa]
-            [posh.pull-analyze :as pa]
-            [posh.util :as util]
-            [posh.datom-matcher :as dmatch]
+            [hiwian.q-analyze :as qa]
+            [hiwian.pull-analyze :as pa]
+            [hiwian.util :as util]
+            [hiwian.datom-matcher :as dmatch]
             ))
 
 (def schema {:todo/name             {:db/unique :db.unique/identity}

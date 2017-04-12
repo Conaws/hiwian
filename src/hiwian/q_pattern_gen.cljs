@@ -1,4 +1,4 @@
-(ns posh.q-pattern-gen)
+(ns hiwian.q-pattern-gen)
 
 (defn take-until [stop-at? ls]
   (if (or

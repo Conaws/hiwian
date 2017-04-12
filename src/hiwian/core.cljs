@@ -1,44 +1,44 @@
-(ns posh.core
+(ns hiwian.core
   (:require-macros [reagent.ratom :refer [reaction]])
   (:require [goog.dom :as gdom]
             [reagent.core :as r]
             [datascript.core :as d]
-            [posh.datom-match :refer [datom-match? any-datoms-match? query-symbol?]]
-            [posh.datom-matcher :as dm]
-            [posh.pull-pattern-gen :as pull-gen]
-            [posh.q-pattern-gen :as q-gen]
-            [posh.pull-analyze :as pa]
+            [hiwian.datom-match :refer [datom-match? any-datoms-match? query-symbol?]]
+            [hiwian.datom-matcher :as dm]
+            [hiwian.pull-pattern-gen :as pull-gen]
+            [hiwian.q-pattern-gen :as q-gen]
+            [hiwian.pull-analyze :as pa]
             [reagent.ratom :as ra]))
 
 (declare try-after-tx)
 
-(defn posh! [conn]
-  (let [posh-vars
+(defn hiwian! [conn]
+  (let [hiwian-vars
         {:last-tx-report (r/atom [])
          :after-tx (atom [])
          :tx-buffer (atom [])
          :reaction-buffers (atom {})
          :active-queries (r/atom #{})}]
-    (d/listen! conn :posh-dispenser
+    (d/listen! conn :hiwian-dispenser
              (fn [var]
                (when (keyword? var)
-                 (get posh-vars var))))
-    (d/listen! conn :posh
+                 (get hiwian-vars var))))
+    (d/listen! conn :hiwian
                (fn [tx-report]
                  (do
                    (doall
                     (for [tx-datom (:tx-data tx-report)
-                          after-tx @(:after-tx posh-vars)]
+                          after-tx @(:after-tx hiwian-vars)]
                       (try-after-tx (:db-before tx-report)
                                     (:db-after tx-report)
                                     tx-datom after-tx)))
-                   (reset! (:last-tx-report posh-vars) tx-report))))))
+                   (reset! (:last-tx-report hiwian-vars) tx-report))))))
 
-;; Posh's state atoms are stored inside a listener in the meta data of
+;; Hiwian's state atoms are stored inside a listener in the meta data of
 ;; the datascript conn
 
 (defn get-atom [conn var]
-  ((:posh-dispenser @(:listeners (meta conn))) var))
+  ((:hiwian-dispenser @(:listeners (meta conn))) var))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; transact
@@ -190,7 +190,7 @@
         (swap! reaction-buffers merge {storage-key new-reaction})
         new-reaction))))
 
-(defn q [conn query & args]
+(defn q [query conn & args]
   (apply (partial
           q-tx
           conn

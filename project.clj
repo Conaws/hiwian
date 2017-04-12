@@ -1,6 +1,6 @@
-(defproject posh "0.3.5"
-  :description "Luxuriously easy and powerful Reagant / Datascript front-end framework"
-  :url "http://github.com/mpdairy/posh/"
+(defproject hiwian "0.3.5"
+  :description "A fork of hiwian, to get back old functionality"
+  :url "http://github.com/conaws/hiwian/"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.7.0"]
@@ -12,13 +12,13 @@
                  ]
   :plugins [[lein-cljsbuild "1.1.3"]]
   :cljsbuild {
-              :builds [ {:id "posh" 
+              :builds [ {:id "hiwian" 
                          :source-paths ["src/"]
                          :figwheel false
-                         :compiler {  :main "posh.core"
+                         :compiler {:main "hiwian.core"
                                     :asset-path "js"
                                     :output-to "resources/public/js/main.js"
                                     :output-dir "resources/public/js"} } ]
               }
   :scm {:name "git"
-        :url "https://github.com/mpdairy/posh"})
+        :url "https://github.com/Conaws/hiwian"})

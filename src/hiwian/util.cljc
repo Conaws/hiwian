@@ -1,4 +1,4 @@
-(ns posh.util)
+(ns hiwian.util)
 
 ;;;; db stuff
 

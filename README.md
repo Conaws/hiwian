@@ -1,20 +1,20 @@
-# Posh
+# Hiwian
 
-Posh is a ClojureScript / React library that lets you use a single
+Hiwian is a ClojureScript / React library that lets you use a single
 [DataScript](https://github.com/tonsky/datascript/) database to store your app state. Components access the
 data they need to render by calling DataScript queries with `q` or
 `pull` and are only updated when the query changes. `transact!` is
 used within components to change the global state. If you are familiar
-with Datomic, you will find Posh incredibly easy to use. If not, it's
+with Datomic, you will find Hiwian incredibly easy to use. If not, it's
 worth learning because of the power and versatility it will give your components.
 
-Posh uses [Reagent](https://github.com/reagent-project/reagent) and can be integrated with your current Reagent
+Hiwian uses [Reagent](https://github.com/reagent-project/reagent) and can be integrated with your current Reagent
 project. Because it uses a single database to store app state, like [Om](https://github.com/omcljs/om) or [re-frame](https://github.com/Day8/re-frame), it is fitting to write
 large, extensible apps and reusable components, with the added
 benefit of being much simpler to use and having a more expressive data
 retrieval and state updating syntax.
 
-Posh is also very fast because the in-component data queries only run when the
+Hiwian is also very fast because the in-component data queries only run when the
 database is updated with relevant data (found by pattern matching on the
 tx report).
 
@@ -32,47 +32,47 @@ database changed an attribute of the `person-id` entity:
 ```
 ## Resources
 
-Posh chat room on Gitter: https://gitter.im/metasoarous/posh
+Hiwian chat room on Gitter: https://gitter.im/metasoarous/hiwian
 
 ### Examples:
 
-[Posh Todo List](https://github.com/mpdairy/posh-todo) - A todo list
+[Hiwian Todo List](https://github.com/mpdairy/hiwian-todo) - A todo list
 with categories, edit boxes, checkboxes, and multi-stage delete
-buttons ([trashy live demo](http://otherway.org/posh-todo/)).
+buttons ([trashy live demo](http://otherway.org/hiwian-todo/)).
 
 ## Usage
 
 Start a Reagent project and include these dependencies:
 
 ```clj
-[posh "0.3.5"]
+[hiwian "0.3.5"]
 [datascript "0.13.3"]
 ```
 Require in Reagent app files:
 ```clj
 (ns example
   (:require [reagent.core :as r]
-            [posh.core :refer [pull q db-tx pull-tx q-tx after-tx! transact! posh!]]
+            [hiwian.core :refer [pull q db-tx pull-tx q-tx after-tx! transact! hiwian!]]
             [datascript.core :as d]))
 ```
 
 ## Overview
 
-Posh gives you three functions to retrieve data from the database from
+Hiwian gives you three functions to retrieve data from the database from
 within Reagent components: `pull`, `q`, and `db-tx`. They watch the
 database's transaction report and only update (re-render) the hosting
 component when one of the transacted datoms affects the requested data.
 
-### posh!
+### hiwian!
 
-`(posh! [DataScript conn])`
+`(hiwian! [DataScript conn])`
 
 Sets up the tx-report listener for a conn.
 
 ```clj
 (def conn (d/create-conn))
 
-(posh! conn)
+(hiwian! conn)
 ```
 You can do it for multiple conn's, though I can't imagine a good use case
 for that.
@@ -86,11 +86,11 @@ with `entity-id`.  `pull` can be called from within any Reagent
 component and will re-render the component only when the pulled
 information has changed.
 
-Posh's `pull` operates just like Datomic / Datascript's `pull` except it takes a
+Hiwian's `pull` operates just like Datomic / Datascript's `pull` except it takes a
 `conn` instead of a `db`. (See
 [Datomic's pull](http://docs.datomic.com/pull.html))
 
-Posh's `pull` only attempts to pull any new data if there has been a
+Hiwian's `pull` only attempts to pull any new data if there has been a
 transaction of any datoms that might have changed the data it is
 looking at. For example:
 
@@ -140,7 +140,7 @@ datoms to see if anything relevant to its query has occured. If so,
 `q` runs Datascript's `q` and compares the new query to the old. If it
 is different, the hosting component will update with the new data.
 
-Posh's `q` looks at the query pattern and tries to make a pattern to
+Hiwian's `q` looks at the query pattern and tries to make a pattern to
 identify relevant tx datoms. If there is anything complex in the
 query, such as function calls or `get-else`, it will have a
 non-restrictive pattern and will run the query whenever there has been
@@ -227,7 +227,7 @@ from 10 (retracted).
      (for [k kids]
        ^{:key (:db/id k)} [:li (:person/name k)])]))
 ```
-(Note: the above component should have just used posh's `q`)
+(Note: the above component should have just used hiwian's `q`)
 
 The example below displays a person and increases its own age
 whenever clicked. It only re-renders when a datom with its own
@@ -242,7 +242,7 @@ entity id is transacted.
      (:person/name p) " -- " (:person/age p)]))
 ```
 
-(Note: the above component should have just used posh's `pull`)
+(Note: the above component should have just used hiwian's `pull`)
 
 ### after-tx!
 
@@ -271,7 +271,7 @@ with the server.
 (transact! conn [[:db/add 123 :person/name "Jim"]])
 ```
 
-Posh's transact just calls DataScript's transact, but returns an empty
+Hiwian's transact just calls DataScript's transact, but returns an empty
 `[:span]` so that it can easily be used inside the body of components.
 
 ### active-queries
@@ -347,7 +347,7 @@ This can be called with any entity and its text attrib, like
 
 ## Pattern Matching
 
-Posh now generates exactly thorough pattern matching for `pull` and
+Hiwian now generates exactly thorough pattern matching for `pull` and
 pretty efficient patterns for `q`, so you shouldn't need to specify your
 own unless you want to make things update less, like if you want
 certain components to just listen to a refresh signal.
@@ -359,7 +359,7 @@ you'll just want to match the `eid` and `attr`, and sometimes
 `val` if there is a ref.
 
 ```clj
-(use 'posh.datom-matcher)
+(use 'hiwian.datom-matcher)
 
 ;; (datom-match? patterns datom)
 
@@ -396,7 +396,7 @@ active queries for a client, do its own pattern matching on the tx-report, and s
 only the datoms that the client is looking for and does not already
 have. Should be nice.
 
-See our Gitter room for updates: https://gitter.im/metasoarous/posh
+See our Gitter room for updates: https://gitter.im/metasoarous/hiwian
 
 ## License
 

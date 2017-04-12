@@ -1,6 +1,6 @@
-(ns posh.q-analyze
+(ns hiwian.q-analyze
   (:require
-   [posh.util :as util]
+   [hiwian.util :as util]
    [datascript.core :as d]))
 
 

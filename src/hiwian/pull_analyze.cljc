@@ -1,6 +1,6 @@
-(ns posh.pull-analyze
+(ns hiwian.pull-analyze
   (:require [datascript.core :as d]
-            [posh.util :as util]))
+            [hiwian.util :as util]))
 
 (defn reverse-lookup? [attr]
   (= (first (name attr)) '\_))
